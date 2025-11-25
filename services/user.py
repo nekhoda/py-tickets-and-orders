@@ -1,22 +1,17 @@
-import os
-import django
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "settings")
-django.setup()
-
 from django.contrib.auth import get_user_model
-
 from db.models import User
-
 
 
 def create_user(
         username: str,
-        password:str,
+        password: str,
         email: str = None,
-        first_name = None,
-        last_name = None
+        first_name: str = None,
+        last_name: str = None
 ) -> User:
-    user = get_user_model().objects.create_user(username=username, password=password)
+    user = get_user_model().objects.create_user(
+        username=username, password=password
+    )
 
     if email:
         user.email = email
@@ -31,7 +26,8 @@ def create_user(
 
 
 def get_user(user_id: int) -> User:
-    return User.objects.get(id=user_id)
+    return get_user_model().objects.get(id=user_id)
+
 
 def update_user(
         user_id: int,
@@ -41,7 +37,7 @@ def update_user(
         first_name: str = None,
         last_name: str = None,
 ) -> None:
-    user_to_update = User.objects.get(id=user_id)
+    user_to_update = get_user_model().objects.get(id=user_id)
 
     if username:
         user_to_update.username = username
@@ -59,4 +55,3 @@ def update_user(
         user_to_update.last_name = last_name
 
     user_to_update.save()
-

@@ -1,11 +1,4 @@
-import os
-import django
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "settings")
-django.setup()
-
-
 from django.db.models import QuerySet
-
 from db.models import MovieSession
 
 
@@ -53,4 +46,3 @@ def delete_movie_session_by_id(session_id: int) -> None:
 def get_taken_seats(movie_session_id: int) -> list:
     tickets = MovieSession.objects.get(id=movie_session_id).tickets.all()
     return [{"row": ticket.row, "seat": ticket.seat} for ticket in tickets]
-
